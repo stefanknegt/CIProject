@@ -22,8 +22,6 @@ def load_data():
 
 def train_mlp(x_train,y_train,x_test,y_test):
     features = x_train.shape[1]
-
-
     model = Sequential()
     model.add(Dense(100, input_dim=features,activation='sigmoid')) #word vector size 32
     #Add hidden layer
