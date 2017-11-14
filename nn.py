@@ -60,11 +60,11 @@ def predict_output(model,input_data):
 #output_data = [[2,2],[4,4],[6,6],[8,8],[9,9],[10,10],[12,12]]
 
 #train_mlp(input_data,output_data)
-data = load_data()
-y = data[:,0:3]
-x = data[:,3:]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
+#data = load_data()
+#y = data[:,0:3]
+#x = data[:,3:]
+#x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
 #print(x_train.shape,y_train.shape)
-train_mlp(x_train,y_train,x_test,y_test)
+#train_mlp(x_train,y_train,x_test,y_test)
 #currentModel = load_keras_model('MLP.h5')
 #print(predict_output(currentModel,x_test[1]))
