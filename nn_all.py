@@ -13,7 +13,7 @@ def str_to_float_with_precision(item):
 def load_data():
     #files = ['../train_data/f-speedway.csv','../train_data/ovaltracke5.csv','../train_data/f-speedway.csv','../train_data/aalborg.csv','../train_data/alpine-1.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/E-road.csv','../train_data/E-track1.csv','../train_data/E-track3.csv','../train_data/Olethros-road1.csv','../train_data/Ruudskogen.csv','../train_data/Wheel1.csv','../train_data/Wheel2.csv']
     #files = ['../train_data/f-speedway.csv','../train_data/aalborg.csv','../train_data/alpine-1.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv']
-    files = ['../train_data/Spring.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/CGtrack3.csv','../train_data/E-road.csv','../train_data/Etrack2.csv','../train_data/Etrack3.csv','../train_data/Etrack4.csv','../train_data/Etrack6.csv','../train_data/olethros1.csv','../train_data/Wheel2.csv']
+    files = ['../train_data/Spring.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/CGtrack3.csv','../train_data/E-road.csv','../train_data/Etrack2.csv','../train_data/Etrack3.csv','../train_data/Etrack4.csv','../train_data/Etrack6.csv','../train_data/olethros1.csv','../train_data/Wheel2.csv','../train_data/Spring.csv']
     first = True
     for f in files:
         data = np.genfromtxt(f, delimiter=',')
@@ -43,7 +43,7 @@ def train_nn(x_train,y_train,x_test,y_test,nn_type):
     elif nn_type == "Dense":
         model = Sequential()
         model.add(Dense(100, input_dim=features,activation='sigmoid')) #word vector size 32
-        model.add(Dense(100, activation='sigmoid'))
+        #model.add(Dense(100, activation='sigmoid'))
         #Add output layer with 1 node to output either 0 or 1
         model.add(Dense(3,activation='tanh'))
     model.compile(loss='mean_squared_error', optimizer='adam')
@@ -52,7 +52,7 @@ def train_nn(x_train,y_train,x_test,y_test,nn_type):
     model.fit(x_train, y_train, epochs=100,verbose=1)
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
-    model.save('LSTM_NotSpring.h5')
+    model.save('Dense_All.h5')
 
 def load_keras_model(modelname):
     newmodel = load_model(modelname)
@@ -67,11 +67,11 @@ def predict_output(model,input_data, nn_type):
     output = model.predict(input_data)
     return float(output[:,0]),float(output[:,1]),float(output[:,2])
 
-#data = load_data()
-#y = data[:,0:3]
-#x = data[:,3:]
-#x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
+data = load_data()
+y = data[:,0:3]
+x = data[:,3:]
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
 #print(x_train.shape,y_train.shape)
-#train_nn(x_train,y_train,x_test,y_test,nn_type = "LSTM")
+train_nn(x,y,x_test,y_test,nn_type = "Dense")
 #currentModel = load_keras_model('MLP.h5')
 #print(predict_output(currentModel,x_test[1]))
