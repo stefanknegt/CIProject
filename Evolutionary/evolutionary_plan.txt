@@ -1,0 +1,35 @@
+Evolutionary algorithm on TORCS:
+
+Things we can optimize using Evolutionary algo's:
+1) Weight matrix (is is quite large so we might need to scale down neural network a bit)
+2) Tune AI parameters to improve training data (this really makes our AI an immitator)
+3) Ideal track position: create a small neural network which adjusts the distance to track center, so the car will drive a more optimal line
+4) ...
+
+Requirements we need:
+1) Fast evaluation of fitness. Playing at 120x speed, not on VM, noting the lab time and than restarting the module to test another child.
+2) Save all .h5 models of our population
+3) Find out how to do mutations or recombinations in these genomes. Maybe we only do mutations.
+4) Define fitness: maybe something in the terms of: a*lap_time_seconds + b*damage. 0 fitness is optimum
+5) Define methods for parents/survivors. Diversity is very important, so you should not have only good parents.
+
+Pseudo algorithm:
+population = 100
+birth = 5
+parents = 10
+fitnesses = np.zeros(100)
+terminate = False
+while terminate == False:
+	for i in [k for k in fitness if k == 0]: #only run if the model has no fitness
+		except:
+			load_model(i)
+		as:
+			model = mutate_model(start_model)
+			model.save()
+		fitnesses[i] = test(model) 
+	death_idx = fitness.argsort()[:birth]
+	parent_pool = fitness.argsort()[parents:]
+	for i in death_idx:
+		parent = np.random.choice(parents, 1, replace=False)
+		parent_model = load_model(parent)
+		model = mutate_model(parent_model)
