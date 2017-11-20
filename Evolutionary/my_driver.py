@@ -3,6 +3,8 @@ from pytocl.car import State, Command
 import numpy as np
 from nn import predict_output, load_keras_model
 #from evolution_nn import make_new_parent
+from subprocess import call
+
 
 class MyDriver(Driver):
 	def __init__(self):
@@ -33,33 +35,10 @@ class MyDriver(Driver):
 		if not command.gear:
 			command.gear = carstate.gear or 1
 
-		if (carstate.current_lap_time - self.time_offset) > 10 and carstate.distance_raced < 10:
-			self.laptimes[self.child] = 1000
-			print(self.child)
-			if self.child >= (self.population - 1):
-				print("I am ready")
-				#self.child = 0
-				#name = 'EVO'+str(self.child)+'.h5'
-				#self.model = load_keras_model(name)
-			else:
-				self.child += 1
-				self.time_offset += carstate.current_lap_time
-				name = 'EVO'+str(self.child)+'.h5'
-				self.model = load_keras_model(name)
-				command.meta = 1
+		if carstate.last_lap_time != 0:
+			fitness = carstate.last_lap_time
+			print(fitness)
+			call(['bash', './start.sh'])
+			exit()
 
-		if carstate.last_lap_time != self.time:
-			self.laptimes[self.child] = carstate.last_lap_time
-			if self.child == (self.population - 1):
-				print("I am ready")
-				#self.child = 0
-				#name = 'EVO'+str(self.child)+'.h5'
-				#self.model = load_keras_model(name)
-			else:
-				print("Going to next child")
-				self.child += 1
-				self.time_offset = 0
-				name = 'EVO'+str(self.child)+'.h5'
-				self.model = load_keras_model(name)
-				command.meta = 1
 		return command
