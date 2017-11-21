@@ -19,8 +19,8 @@ def get_weights(model):
     biases = model.layers[0].get_weights()[1]
     return weights,biases
 
-def make_childs(w,b):
-    n_childs = 2
+def make_childs(w,b,loc, population):
+    n_childs = population
     for i in range(0,n_childs):
         child = []
         for j in range(0,len(w)):
@@ -36,15 +36,16 @@ def make_childs(w,b):
         model.add(Dense(3,activation='tanh'))
         model.compile(loss='mean_squared_error', optimizer='adam')
         for q in range(0,len(w)):
-            print(q)
             model.layers[q].get_weights()[0] = child[q]
             model.layers[q].get_weights()[1] = b[q]
-        model.save('EVONN'+str(i)+'.h5')
+        name = './'+loc+'/EVO'+str(i)+'.h5'
+        print(name)
+        model.save(name)
 
-def make_new_parent(fitness):
+def make_new_parent(fitness, loc, population):
     best_10  = sorted(range(len(fitness)), key=lambda i: fitness[i])[-10:]
-    for i in range(0,len(best_10)):
-        model_name = 'EVON'+str(i)+'.h5'
+    for i in best_10:
+        model_name = './'+loc+'/EVO'+str(i)+'.h5'
         model = load_keras_model(model_name)
         weights, bias = get_weights(model)
         for j in range(0,len(weights)):
@@ -59,14 +60,14 @@ def make_new_parent(fitness):
     for q in range(0,len(weights)):
         print(q)
         model.layers[q].get_weights()[0] = new_weights[q]
-        model.layers[q].get_weights()[1] = b[q]
-    model.save('NEWBEST.h5')
-    new_model = load_keras_model('NEWBEST.h5')
+        model.layers[q].get_weights()[1] = bias[q]
+    model.save('Best_Model.h5')
+    new_model = load_keras_model('Best_Model.h5')
     w, b = get_weights(model)
-    make_childs(w,b)
+    make_childs(w,b,loc,population)
 
 
 
-new_model = load_keras_model('MLPLALL4.h5')
-w,b = get_weights(new_model)
-make_childs(w,b)
+#new_model = load_keras_model('MLPLALL4.h5')
+#w,b = get_weights(new_model)
+#make_childs(w,b)

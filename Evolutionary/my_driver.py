@@ -2,26 +2,23 @@ from pytocl.driver import Driver
 from pytocl.car import State, Command
 import numpy as np
 from nn import predict_output, load_keras_model
-#from evolution_nn import make_new_parent
-from subprocess import call
-
 
 class MyDriver(Driver):
 	def __init__(self):
-		name = 'MLPLALL4.h5'
+		name = 'EVO_model.h5'
 		self.model = load_keras_model(name)
 		self.time_offset = 0
 		self.population = 10
 		self.time = 0
 		self.laptimes = np.zeros(self.population)
 		self.child = 0
-	def drive(self, carstate: State) -> Command:		
+	def drive(self, carstate: State) -> Command:
 		data = []
 		command = Command()
-		angle = carstate.angle #ANGLE_TO_TRACK_AXIS
-		speed = carstate.speed_x #SPEED
-		track_position = carstate.distance_from_center #Track position
-		track_edges = carstate.distances_from_edge #TRACK_EDGE0-18
+		angle = carstate.angle
+		speed = carstate.speed_x
+		track_position = carstate.distance_from_center
+		track_edges = carstate.distances_from_edge
 		data.append(speed)
 		data.append(track_position)
 		data.append(angle)
@@ -35,10 +32,9 @@ class MyDriver(Driver):
 		if not command.gear:
 			command.gear = carstate.gear or 1
 
-		if carstate.last_lap_time != 0:
+		if carstate.last_lap_time != self.time:
+			self.time = carstate.last_lap_time
 			fitness = carstate.last_lap_time
-			print(fitness)
-			call(['bash', './start.sh'])
-			exit()
-
+			fitnesses = open('laptimes.txt', 'a')
+			fitnesses.write("%s\n" %fitness)
 		return command
