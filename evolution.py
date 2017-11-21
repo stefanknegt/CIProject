@@ -1,5 +1,7 @@
 import shutil
 import os
+import wrapper
+import time
 from evolution_nn import load_keras_model, get_weights, make_childs, make_new_parent
 population = 10
 start_model = 'Best_Model.h5'
@@ -16,8 +18,10 @@ while True:
     for i in range(population):
         filename = 'EVO'+str(i)+'.h5'
         shutil.copy(os.path.join(loc, filename), os.path.join('EVO_model.h5'))
-
-
+        trained_once = wrapper.train_once()
+        time.sleep(15)
+        print ('training',filename)
+        os.remove(os.path.join('EVO_model.h5'))
 
     laptimes = open('laptimes.txt', 'r')
     lap_times = laptimes.readlines()
