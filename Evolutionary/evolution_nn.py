@@ -24,7 +24,8 @@ def make_childs(w,b,loc, population):
     for i in range(0,n_childs):
         child = []
         for j in range(0,len(w)):
-            noise = np.random.normal(0,0.005,size=w[j].shape)
+            #noise = np.random.normal(0,0.005,size=w[j].shape)
+            noise = np.random.normal(0,0.2,size=w[j].shape)
             new_matrix = np.add(w[j],noise)
             child.append(new_matrix)
         #print(len(child))

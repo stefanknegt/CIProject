@@ -37,4 +37,6 @@ class MyDriver(Driver):
 			fitness = carstate.last_lap_time
 			fitnesses = open('laptimes.txt', 'a')
 			fitnesses.write("%s\n" %fitness)
+		if carstate.current_lap_time > 10 and carstate.distance_from_start < 10:
+			exit()
 		return command
