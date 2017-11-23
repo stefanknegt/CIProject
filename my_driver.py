@@ -1,30 +1,48 @@
 from pytocl.driver import Driver
 from pytocl.car import State, Command
 import numpy as np
-from nn_all import predict_output, load_keras_model
+from nn import predict_output, load_keras_model
 
 class MyDriver(Driver):
 	def __init__(self):
-		self.model = load_keras_model('LSTM_NotSpring.h5')
+		name = 'EVO_model.h5'
+		self.model = load_keras_model(name)
+		self.time_offset = 0
+		self.population = 10
+		self.time = 0
+		self.laptimes = np.zeros(self.population)
+		self.child = 0
 	def drive(self, carstate: State) -> Command:
-		nn_type = "LSTM"
 		data = []
 		command = Command()
-		angle = carstate.angle #ANGLE_TO_TRACK_AXIS
-		speed = carstate.speed_x #SPEED
-		track_position = carstate.distance_from_center #Track position
-		track_edges = carstate.distances_from_edge #TRACK_EDGE0-18
+		angle = carstate.angle
+		speed = carstate.speed_x
+		track_position = carstate.distance_from_center
+		track_edges = carstate.distances_from_edge
 		data.append(speed)
 		data.append(track_position)
 		data.append(angle)
 		for i in track_edges:
 			data.append(i)
-		print(data)
-		command.accelerator, command.brake, command.steering = predict_output(self.model, data, nn_type)		
+		command.accelerator, command.brake, command.steering = predict_output(self.model, data)
 		if carstate.rpm > 5000:
 			command.gear = carstate.gear + 1
-		elif carstate.rpm < 2500:
+		elif carstate.rpm < 2500 and carstate.gear > 1:
 			command.gear = carstate.gear - 1
 		if not command.gear:
 			command.gear = carstate.gear or 1
+
+		if carstate.last_lap_time != self.time:
+			self.time = carstate.last_lap_time
+			fitness = carstate.last_lap_time
+			fitnesses = open('laptimes.txt', 'a')
+			fitnesses.write("%s\n" %fitness)
+
+		if carstate.current_lap_time > 10 and carstate.distance_from_start < 10:
+			fitnesses = open('laptimes.txt', 'a')
+
+            fitness = 1000
+            fitnesses.write("%s\n" %fitness)
+            exit()
+
 		return command

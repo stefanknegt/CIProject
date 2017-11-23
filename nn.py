@@ -11,9 +11,7 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    #files = ['../train_data/f-speedway.csv','../train_data/ovaltracke5.csv','../train_data/f-speedway.csv','../train_data/aalborg.csv','../train_data/alpine-1.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/E-road.csv','../train_data/E-track1.csv','../train_data/E-track3.csv','../train_data/Olethros-road1.csv','../train_data/Ruudskogen.csv','../train_data/Wheel1.csv','../train_data/Wheel2.csv']
-    #files = ['../train_data/f-speedway.csv','../train_data/aalborg.csv','../train_data/alpine-1.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv']
-    files = ['data.txt']
+    files = ['../train_data/Spring.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/CGtrack3.csv','../train_data/E-road.csv','../train_data/Etrack2.csv','../train_data/Etrack3.csv','../train_data/Etrack4.csv','../train_data/Etrack6.csv','../train_data/olethros1.csv','../train_data/Wheel2.csv','../train_data/Spring.csv']
     first = True
     for f in files:
         data = np.genfromtxt(f, delimiter=' ')
@@ -24,7 +22,8 @@ def load_data():
 
 def train_mlp(x_train,y_train,x_test,y_test):
     features = x_train.shape[1]
-    print(features)
+
+
     model = Sequential()
     model.add(Dense(100, input_dim=features,activation='sigmoid')) #word vector size 32
     #Add hidden layer
@@ -35,11 +34,11 @@ def train_mlp(x_train,y_train,x_test,y_test):
     print(model.summary())
 
     #fit the model
-    model.fit(x_train, y_train, epochs=50,verbose=1)
+    model.fit(x_train, y_train, epochs=200,verbose=1)
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
-    model.save('MLPNEW2.h5')
+    model.save('Dense1001003.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
     model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
@@ -52,7 +51,7 @@ def load_keras_model(modelname):
     return newmodel
 
 def predict_output(model,input_data):
-    print(input_data)
+    #print(input_data)
     input_data = np.reshape(input_data,(1,22))
     output = model.predict(input_data)
     return float(output[:,0]),float(output[:,1]),float(output[:,2])
