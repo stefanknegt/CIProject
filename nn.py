@@ -13,10 +13,10 @@ def str_to_float_with_precision(item):
 def load_data():
     #files = ['../train_data/f-speedway.csv','../train_data/ovaltracke5.csv','../train_data/f-speedway.csv','../train_data/aalborg.csv','../train_data/alpine-1.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/E-road.csv','../train_data/E-track1.csv','../train_data/E-track3.csv','../train_data/Olethros-road1.csv','../train_data/Ruudskogen.csv','../train_data/Wheel1.csv','../train_data/Wheel2.csv']
     #files = ['../train_data/f-speedway.csv','../train_data/aalborg.csv','../train_data/alpine-1.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv']
-    files = ['../train_data/Spring.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv']
+    files = ['data.txt']
     first = True
     for f in files:
-        data = np.genfromtxt(f, delimiter=',')
+        data = np.genfromtxt(f, delimiter=' ')
         if first is False:
             data = np.concatenate((data,np.genfromtxt(f, delimiter=',')),axis=0)
         first = False
@@ -35,11 +35,11 @@ def train_mlp(x_train,y_train,x_test,y_test):
     print(model.summary())
 
     #fit the model
-    model.fit(x_train, y_train, epochs=100,verbose=1)
+    model.fit(x_train, y_train, epochs=50,verbose=1)
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
-    model.save('MLPLALL5.h5')
+    model.save('MLPNEW2.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
     model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
@@ -61,11 +61,11 @@ def predict_output(model,input_data):
 #output_data = [[2,2],[4,4],[6,6],[8,8],[9,9],[10,10],[12,12]]
 
 #train_mlp(input_data,output_data)
-#data = load_data()
-#y = data[:,0:3]
-#x = data[:,3:]
-#x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
-#print(x_train.shape,y_train.shape)
-#train_mlp(x_train,y_train,x_test,y_test)
+data = load_data()
+y = data[:,0:3]
+x = data[:,3:]
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
+print(x_train.shape,y_train.shape)
+train_mlp(x_train,y_train,x_test,y_test)
 #currentModel = load_keras_model('MLP.h5')
 #print(predict_output(currentModel,x_test[1]))
