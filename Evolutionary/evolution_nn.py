@@ -43,6 +43,21 @@ def make_childs(w,b,loc, population):
         print(name)
         model.save(name)
 
+def make_childs_new(model, population, loc):
+    parent = load_model(model)
+    for i in range(0,population):
+        child = Sequential()
+        child.add(Dense(100, input_dim=22,activation='sigmoid'))
+        child.add(Dense(100, activation='sigmoid'))
+        child.add(Dense(3,activation='tanh'))
+        child.compile(loss='mean_squared_error', optimizer='adam')
+        for lay in range(0,3):
+            weights = parent.layers[lay].get_weights()
+            weights[0] += np.random.normal(0,0.005, size=weights[0].shape)
+            child.layers[lay].set_weights(weights)
+        name = './'+loc+'/EVO'+str(i)+'.h5'
+        child.save(name)
+
 def make_new_parent(fitness, loc, population):
     best_10  = sorted(range(len(fitness)), key=lambda i: fitness[i])[-10:]
     for i in best_10:
@@ -68,7 +83,7 @@ def make_new_parent(fitness, loc, population):
     make_childs(w,b,loc,population)
 
 
-
+#make_childs_new('Dense1001003.h5', 10, 'EVO_models')
 #new_model = load_keras_model('MLPLALL4.h5')
 #w,b = get_weights(new_model)
 #make_childs(w,b)

@@ -11,7 +11,7 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    files = ['../train_data/f-speedway.csv']#['aalborg.csv','alpine-1.csv','f-speedway.csv']
+    files = ['../train_data/Spring.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/CGtrack3.csv','../train_data/E-road.csv','../train_data/Etrack2.csv','../train_data/Etrack3.csv','../train_data/Etrack4.csv','../train_data/Etrack6.csv','../train_data/olethros1.csv','../train_data/Wheel2.csv','../train_data/Spring.csv']
     first = True
     for f in files:
         data = np.genfromtxt(f, delimiter=',')
@@ -38,7 +38,7 @@ def train_mlp(x_train,y_train,x_test,y_test):
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
-    model.save('MLPLFspeedway.h5')
+    model.save('Dense1001003.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
     model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
@@ -60,11 +60,11 @@ def predict_output(model,input_data):
 #output_data = [[2,2],[4,4],[6,6],[8,8],[9,9],[10,10],[12,12]]
 
 #train_mlp(input_data,output_data)
-#data = load_data()
-#y = data[:,0:3]
-#x = data[:,3:]
-#x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
+data = load_data()
+y = data[:,0:3]
+x = data[:,3:]
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
 #print(x_train.shape,y_train.shape)
-#train_mlp(x_train,y_train,x_test,y_test)
+train_mlp(x_train,y_train,x_test,y_test)
 #currentModel = load_keras_model('MLP.h5')
 #print(predict_output(currentModel,x_test[1]))
