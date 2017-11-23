@@ -4,6 +4,7 @@ import wrapper
 import time
 from evolution_nn import make_childs_new, make_new_parent
 import numpy as np
+import random
 population = 5
 best_model = 'Best_Model.h5'
 loc = 'EVO_models'
@@ -15,24 +16,24 @@ if __name__ == "__main__":
     open('laptimes.txt', 'w') #delete old results
 
 while True:
+    track_id = random.randint(0,3)
     for i in range(population):
         filename = 'EVO'+str(i)+'.h5'
         shutil.copy(os.path.join(loc, filename), os.path.join('EVO_model.h5'))
-        for j in range(0,4):
-            circuit_name  = wrapper.train(j)
-            time.sleep(20)
-            print ('trained',filename,'on',circuit_name)
-            # os.remove(os.path.join('EVO_model.h5'))
+        circuit_name  = wrapper.train(track_id)
+        time.sleep(20)
+        print ('trained',filename,'on',circuit_name)
+        # os.remove(os.path.join('EVO_model.h5'))
         #check if laptime was registered else DNF
         
-            laptimes = open('laptimes.txt', 'r')
-            lap_times = laptimes.readlines()
-            lap_times = [x.strip() for x in lap_times]
-            print(lap_times)
-            lines = len(lap_times)
-            if lines < i+1:
-                laptimes = open('laptimes.txt', 'a')
-                laptimes.write("DNF \n")
+        laptimes = open('laptimes.txt', 'r')
+        lap_times = laptimes.readlines()
+        lap_times = [x.strip() for x in lap_times]
+        print(lap_times)
+        lines = len(lap_times)
+        if lines < i+1:
+            laptimes = open('laptimes.txt', 'a')
+            laptimes.write("DNF \n")
 
     laptimes = open('laptimes.txt', 'r')
     lap_times = laptimes.readlines()
