@@ -18,25 +18,26 @@ while True:
     for i in range(population):
         filename = 'EVO'+str(i)+'.h5'
         shutil.copy(os.path.join(loc, filename), os.path.join('EVO_model.h5'))
-        trained_once = wrapper.train_once()
-        time.sleep(15)
-        print ('trained',filename)
-        os.remove(os.path.join('EVO_model.h5'))
+        for j in range(0,4):
+            circuit_name  = wrapper.train(j)
+            time.sleep(20)
+            print ('trained',filename,'on',circuit_name)
+            # os.remove(os.path.join('EVO_model.h5'))
         #check if laptime was registered else DNF
         
-        laptimes = open('laptimes.txt', 'r')
-        lap_times = laptimes.readlines()
-        lap_times = [x.strip() for x in lap_times]
-        print(lap_times)
-        lines = len(lap_times)
-        if lines < i+1:
-            laptimes = open('laptimes.txt', 'a')
-            laptimes.write("DNF \n")
+            laptimes = open('laptimes.txt', 'r')
+            lap_times = laptimes.readlines()
+            lap_times = [x.strip() for x in lap_times]
+            print(lap_times)
+            lines = len(lap_times)
+            if lines < i+1:
+                laptimes = open('laptimes.txt', 'a')
+                laptimes.write("DNF \n")
 
     laptimes = open('laptimes.txt', 'r')
     lap_times = laptimes.readlines()
     lap_times = [x.strip() for x in lap_times]
-    lap_times = [0 if x == "DNF" else float(x) for x in lap_times]
+    lap_times = [0 if x == "DNF" else float(x.split()[0]) for x in lap_times]
     lap_times = [max(lap_times) if x==0 else x for x in lap_times]
     fastest_idx = np.argmin(lap_times)
     print("The fastest child was number: ", fastest_idx)
