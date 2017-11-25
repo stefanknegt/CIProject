@@ -11,7 +11,7 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    files = ['Berniwdata.txt']
+    files = ['Data/Berniwdata.txt']
     for f in files:
         data = np.genfromtxt(f, delimiter=' ')
         first = False
@@ -31,10 +31,10 @@ def train_mlp(x_train,y_train,x_test,y_test):
     print(model.summary())
 
     #fit the model
-    model.fit(x_train, y_train, epochs=200,verbose=1)
+    model.fit(x_train, y_train, epochs=100,verbose=1)
 
     # Final evaluation of the model
-    print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
+    print(model.evaluate(x=x_test, y=y_test, verbose=1))
     model.save('Berniw.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
