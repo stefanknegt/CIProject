@@ -11,12 +11,9 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    files = ['../train_data/Spring.csv','../train_data/Alpine1.csv','../train_data/Alpine2.csv','../train_data/Brondehach.csv','../train_data/CGtrack3.csv','../train_data/E-road.csv','../train_data/Etrack2.csv','../train_data/Etrack3.csv','../train_data/Etrack4.csv','../train_data/Etrack6.csv','../train_data/olethros1.csv','../train_data/Wheel2.csv','../train_data/Spring.csv']
-    first = True
+    files = ['Berniwdata.txt']
     for f in files:
         data = np.genfromtxt(f, delimiter=' ')
-        if first is False:
-            data = np.concatenate((data,np.genfromtxt(f, delimiter=',')),axis=0)
         first = False
     return data
 
@@ -27,7 +24,7 @@ def train_mlp(x_train,y_train,x_test,y_test):
     model = Sequential()
     model.add(Dense(100, input_dim=features,activation='sigmoid')) #word vector size 32
     #Add hidden layer
-    model.add(Dense(100, activation='sigmoid'))
+    #model.add(Dense(100, activation='sigmoid'))
     #Add output layer with 1 node to output either 0 or 1
     model.add(Dense(3,activation='tanh'))
     model.compile(loss='mean_squared_error', optimizer='adam')
@@ -38,7 +35,7 @@ def train_mlp(x_train,y_train,x_test,y_test):
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
-    model.save('Dense1001003.h5')
+    model.save('Berniw.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
     model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
