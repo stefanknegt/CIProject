@@ -11,7 +11,7 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    files = ['Data/Berniwdata.txt']
+    files = ['Data/finalBerni.txt']
     for f in files:
         data = np.genfromtxt(f, delimiter=' ')
         first = False
@@ -36,7 +36,7 @@ def train_mlp(x_train,y_train,x_test,y_test):
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, verbose=1))
-    model.save('Berniw3layer50MLP.h5')
+    model.save('3layerMLPBERNI.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
     model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
@@ -61,7 +61,7 @@ def predict_output(model,input_data):
 data = load_data()
 y = data[:,0:3]
 x = data[:,3:]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.10, random_state=42)
 print(x_train.shape,y_train.shape)
 train_mlp(x_train,y_train,x_test,y_test)
 #currentModel = load_keras_model('MLP.h5')
