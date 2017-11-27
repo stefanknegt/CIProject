@@ -7,11 +7,6 @@ class MyDriver(Driver):
 	def __init__(self):
 		name = 'EVO_model.h5'
 		self.model = load_keras_model(name)
-		self.time_offset = 0
-		self.population = 10
-		self.time = 0
-		self.laptimes = np.zeros(self.population)
-		self.child = 0
 	def drive(self, carstate: State) -> Command:
 		data = []
 		command = Command()
@@ -31,18 +26,5 @@ class MyDriver(Driver):
 			command.gear = carstate.gear - 1
 		if not command.gear:
 			command.gear = carstate.gear or 1
-
-		if carstate.last_lap_time != self.time:
-			self.time = carstate.last_lap_time
-			fitness = carstate.last_lap_time
-			fitnesses = open('laptimes.txt', 'a')
-			fitnesses.write("%s\n" %fitness)
-
-		if carstate.current_lap_time > 10 and carstate.distance_from_start < 10:
-			fitnesses = open('laptimes.txt', 'a')
-
-            fitness = 1000
-            fitnesses.write("%s\n" %fitness)
-            exit()
 
 		return command
