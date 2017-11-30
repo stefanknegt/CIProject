@@ -6,13 +6,10 @@ from nn import predict_output, load_keras_model
 
 class MyDriver(Driver):
 	def __init__(self):
-		name = 'EVO_model.h5'
+		name = 'Best_Model.h5'
 		self.model = load_keras_model(name)
 		self.time_offset = 0
-		self.population = 10
 		self.time = 0
-		self.laptimes = np.zeros(self.population)
-		self.child = 0
 		self.been_outside_track = False
 		self.time_outside_circuit = 0
 		self.start_time = None

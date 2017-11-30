@@ -5,10 +5,10 @@ import time
 from evolution_nn import make_childs_new, make_new_parent
 import numpy as np
 import random
-population = 10
+population = 20
 best_model = 'Best_Model.h5'
 loc = 'EVO_models'
-noise = 0.005
+noise = 0.0005
 if __name__ == "__main__":
     if not os.path.exists(loc):
         os.makedirs(loc)
@@ -21,7 +21,7 @@ while True:
         filename = 'EVO'+str(i)+'.h5'
         shutil.copy(os.path.join(loc, filename), os.path.join('EVO_model.h5'))
         circuit_name  = wrapper.train(track_id)
-        time.sleep(20)
+        time.sleep(13)
         print ('trained',filename,'on',circuit_name)
         # os.remove(os.path.join('EVO_model.h5'))
         #check if laptime was registered else DNF
