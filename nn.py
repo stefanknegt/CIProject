@@ -11,7 +11,7 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    files = ['Data/Berniwdata.txt']
+    files = ['Data/finalDamned.txt']
     for f in files:
         data = np.genfromtxt(f, delimiter=' ')
         first = False
@@ -22,21 +22,21 @@ def train_mlp(x_train,y_train,x_test,y_test):
 
 
     model = Sequential()
-    model.add(Dense(100, input_dim=features,activation='sigmoid'))
+    model.add(Dense(100, input_dim=features,activation='tanh'))
     #Add hidden layer
-    model.add(Dense(100, activation='sigmoid'))
-    model.add(Dense(100, activation='sigmoid'))
+    model.add(Dense(100, activation='tanh'))
+    model.add(Dense(100, activation='tanh'))
     #Add output layer with 1 node to output either 0 or 1
     model.add(Dense(3,activation='tanh'))
     model.compile(loss='mean_squared_error', optimizer='adam')
     print(model.summary())
 
     #fit the model
-    model.fit(x_train, y_train, epochs=50,verbose=1)
+    model.fit(x_train, y_train, epochs=25,verbose=1)
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, verbose=1))
-    model.save('Berniw3layer50MLP.h5')
+    model.save('Damn3laagTanh.h5')
 
 def train_rnn(x_train,y_train,x_test,y_test):
     model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
@@ -58,11 +58,20 @@ def predict_output(model,input_data):
 #output_data = [[2,2],[4,4],[6,6],[8,8],[9,9],[10,10],[12,12]]
 
 #train_mlp(input_data,output_data)
+<<<<<<< HEAD
 # data = load_data()
 # y = data[:,0:3]
 # x = data[:,3:]
 # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42)
 # print(x_train.shape,y_train.shape)
 # train_mlp(x_train,y_train,x_test,y_test)
+=======
+data = load_data()
+y = data[:,0:3]
+x = data[:,3:]
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.01, random_state=42)
+print(x_train.shape,y_train.shape)
+train_mlp(x_train,y_train,x_test,y_test)
+>>>>>>> 99ac10c08d369d7a6bf914e3dc4fd0c7742a3814
 #currentModel = load_keras_model('MLP.h5')
 #print(predict_output(currentModel,x_test[1]))

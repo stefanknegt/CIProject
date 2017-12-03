@@ -1,0 +1,37 @@
+Starting fitness
+Forza 161.38 (0)
+Ruudskogen 122.15 (1)
+Aalborg: 127.08 (2)
+Corkscrew 137.26 (3)
+
+
+Settings: 20 childs, 20 generations. Noise = 0.0005 and decreases with 10% every evolution round. Random picks 1 of 4 circuits per evolution round. Starting model: Joris2laagsTanh
+
+Evolution (generation, circuit, fitness)
+1 0 154.994
+2 1 122.384
+3 2 125.138
+4 3 135.414
+5 0 156.42
+6 2 123.954
+7 3 135.166
+8 0 155.954
+9 2 121.462
+10 2 121.398
+11 2 121.228
+12 3 134.766
+13 1 117.548
+14 3 134.034
+15 2 121.448
+16 2 121.754
+17 1 118.67
+18 1 118.792
+19 0 154.89
+20 2 122.72
+
+Final fitnesses:
+Forza 155.87 (0)
+Ruudskogen 119.47 (1)
+Aalborg: 122.72 (2)
+Corkscrew 134.39 (3)
+

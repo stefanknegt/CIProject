@@ -11,7 +11,7 @@ def str_to_float_with_precision(item):
     return round(float(item),2)
 
 def load_data():
-    files = ['../train_data/f-speedway.csv']#['aalborg.csv','alpine-1.csv','f-speedway.csv']
+    files = ['aalborg.csv','alpine-1.csv','f-speedway.csv']
     first = True
     for f in files:
         data = np.genfromtxt(f, delimiter=',')
@@ -34,16 +34,11 @@ def train_mlp(x_train,y_train,x_test,y_test):
     print(model.summary())
 
     #fit the model
-    model.fit(x_train, y_train, epochs=200,verbose=1)
+    model.fit(x_train, y_train, epochs=50,verbose=1)
 
     # Final evaluation of the model
     print(model.evaluate(x=x_test, y=y_test, batch_size=None, verbose=1))
-    model.save('MLPLFspeedway.h5')
-
-def train_rnn(x_train,y_train,x_test,y_test):
-    model.add(Dense(22*timesteps,input_shape=(TimeSteps,Features),activation = "tanh"))
-    model.add(SimpleRNN(2,activation = "tanh"))
-    model.add(Dense(1,activation = "tanh"))
+    model.save('MLPL.h5')
 
 def load_keras_model(modelname):
 
@@ -54,7 +49,8 @@ def predict_output(model,input_data):
     #print(input_data)
     input_data = np.reshape(input_data,(1,22))
     output = model.predict(input_data)
-    return float(output[:,0]),float(output[:,1]),float(output[:,2])
+    #print(output)
+    return float(output[:,0]),float(output[:,1])
 
 #input_data = [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]]
 #output_data = [[2,2],[4,4],[6,6],[8,8],[9,9],[10,10],[12,12]]
